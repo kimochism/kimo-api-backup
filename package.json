@@ -1,9 +1,6 @@
 {
   "name": "kimo-api-lite",
   "version": "0.0.1",
-  "engines": {
-    "node": "14.16.1"
-  },
   "description": "",
   "author": "",
   "private": true,
