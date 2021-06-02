@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { Customer } from "./schema/Customer.schema";
 import { CustomerService } from "./Customer.service";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
