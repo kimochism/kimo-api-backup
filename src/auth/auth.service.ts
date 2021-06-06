@@ -12,8 +12,7 @@ export class AuthService {
     ) { }
 
     async auth(email: string, password: string): Promise<any> {
-
-        const user = await this.userService.findOne(email);
+        const user = await this.userService.getUserByEmail(email);
 
         if (user) {
             const match = await bcrypt.compare(password, user.password);
@@ -21,10 +20,8 @@ export class AuthService {
             if(match) {
                 return { email: user.email};
             }
-
             return null;
         }
-
         return null;
     }
 
