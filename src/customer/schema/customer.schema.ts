@@ -20,6 +20,9 @@ export class Customer {
 
     @Prop({ type: String, required: true, unique: true })
     user_id: string;
+
+    @Prop({ type: Array, required: true })
+    address: string[];
 }
 
 export const CustomerSchema = SchemaFactory.createForClass(Customer);

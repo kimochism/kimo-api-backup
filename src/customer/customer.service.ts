@@ -8,11 +8,11 @@ export class CustomerService {
     constructor(@InjectModel(Customer.name) private readonly customerModel: Model<CustomerDocument>) { }
 
     async getCustomers(): Promise<Customer[]> {
-        return await this.customerModel.find({});
+        return await this.customerModel.find().populate({ path: 'address', model: 'Address'});
     }
 
     async getCustomer(id: string): Promise<Customer> {
-        return await this.customerModel.findById(id);
+        return await this.customerModel.findById(id).populate({ path: 'address', model: 'Address'});
     }
 
     async createCustomer(customer: Customer): Promise<Customer> {

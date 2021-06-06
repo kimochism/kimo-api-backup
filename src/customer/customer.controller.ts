@@ -14,7 +14,7 @@ export class CustomerController {
     }
 
     @Get(':id')
-    async getCustomer(@Param() id: string): Promise<Customer> {
+    async getCustomer(@Param('id') id: string): Promise<Customer> {
         return this.customerService.getCustomer(id);
     }
 
