@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { CollectionService } from "./collection.service";
-import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
 import { Collection } from "./schema/Collection.schema";
 
 @Controller('collections')

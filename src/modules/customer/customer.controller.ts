@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { CustomerService } from "./customer.service";
-import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
 import { Customer } from "./schema/customer.schema";
 
 @UseGuards(JwtAuthGuard)

@@ -1,14 +1,29 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
+import { QueryOptionsProduct } from "src/shared/query-options.product";
 import { Product, ProductDocument } from "./schema/product.schema";
 
 @Injectable()
 export class ProductService {
     constructor(@InjectModel(Product.name) private readonly productModel: Model<ProductDocument>) { }
 
-    async getProducts(): Promise<Product[]> {
-        return await this.productModel.find();
+    async getProducts(options: QueryOptionsProduct): Promise<{ data: Product[]; total?: number, offset?: number, limit?: number }> {
+
+        const data = await this.productModel
+            .find(options.fields ? { [options.fields]: options.text} : {}, (err, doc) => {
+                return doc;
+            })
+            .skip(Number(options.offset))
+            .limit(Number(options.limit))
+            .exec();
+
+        return {
+            data,
+            total: data.length,
+            offset: Number(options.offset) || 0,
+            limit: Number(options.limit) || 10,
+        };
     }
 
     async getProduct(id: string): Promise<ProductDocument> {
