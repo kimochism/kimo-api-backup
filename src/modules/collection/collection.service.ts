@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
+import { QueryOptions } from "src/shared/query-options";
 import { Collection, CollectionDocument } from "./schema/collection.schema";
 
 @Injectable()
@@ -9,10 +10,22 @@ export class CollectionService {
         @InjectModel(Collection.name) private readonly collectionModel: Model<CollectionDocument>,
     ) { }
 
-    async getCollections(): Promise<Collection[]> {
-        const collections = this.collectionModel.find().populate({ path: 'products', model: 'Product'}).exec();
+    async getCollections(options: QueryOptions): Promise<{ data: Collection[]; total?: number, offset?: number, limit?: number }> {
+        const data = await this.collectionModel
+            .find(options.fields ? { [options.fields]: options.text} : {}, (err, doc) => {
+                return doc;
+            })
+            .skip(Number(options.offset))
+            .limit(Number(options.limit))
+            .populate({ path: 'products', model: 'Product'})
+            .exec();
 
-        return collections;
+        return {
+            data,
+            total: data.length,
+            offset: Number(options.offset) || 0,
+            limit: Number(options.limit) || 10,
+        };
     }
 
     async getCollection(id: string): Promise<Collection> {

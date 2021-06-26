@@ -10,7 +10,6 @@ export class ProductController {
 
     @Get()
     async getProducts(@Req() req: Request): Promise<{ data: Product[]; total?: number, offset?: number, limit?: number }> {
-
         return this.productService.getProducts(req.query);
     }
 

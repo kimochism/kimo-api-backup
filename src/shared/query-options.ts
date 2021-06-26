@@ -1,4 +1,4 @@
-export class QueryOptionsProduct {
+export class QueryOptions {
     limit?: number;
     offset?: number;
     fields?: string;
