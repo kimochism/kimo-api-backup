@@ -10,6 +10,8 @@ import { CollectionModule } from './collection/collection.module';
 import { AddressModule } from './address/address.module';
 import { OrderModule } from './order/order.module';
 import { ImageModule } from './image/image.module';
+import { CustomerBagModule } from './customer-bag/customer-bag.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { ImageModule } from './image/image.module';
     AddressModule,
     OrderModule,
     ImageModule,
+    CustomerBagModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
