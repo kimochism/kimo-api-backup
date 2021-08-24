@@ -6,7 +6,7 @@ export type CustomerDocument = Customer & Document;
 @Schema({ timestamps: true, id: true })
 export class Customer {
     
-    @Prop({ type: String, required: true, unique: true })
+    @Prop({ type: String, unique: true })
     document: string;
 
     @Prop({ type: String, required: true })
@@ -15,13 +15,13 @@ export class Customer {
     @Prop({ type: String, required: true })
     cell_phone_number: string;
 
-    @Prop({ type: Date, required: true })
+    @Prop({ type: Date })
     birth_date: Date;
 
     @Prop({ type: String, required: true, unique: true })
     user_id: string;
 
-    @Prop({ type: Array, required: true })
+    @Prop({ type: Array })
     address: string[];
 }
 
