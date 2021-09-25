@@ -13,11 +13,11 @@ export class UserService {
     }
 
     async getUser(id: string): Promise<User> {
-        return await this.userModel.findById(id);
+        return await this.userModel.findById(id).exec();
     }
 
     async getUserByEmail(email: string): Promise<User> {
-        return await this.userModel.findOne({ email });
+        return await this.userModel.findOne({ email }).exec();
     }
 
     async createUser(user: User): Promise<User> {
@@ -27,7 +27,7 @@ export class UserService {
     }
 
     async updateUser(id: string, user: User): Promise<User> {
-        const foundUser = await this.userModel.findById(id);
+        const foundUser = await this.userModel.findById(id).exec();
 
         if (!foundUser) {
             return;

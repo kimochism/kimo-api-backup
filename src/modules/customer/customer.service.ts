@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Res } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { Customer, CustomerDocument } from "./schema/customer.schema";
@@ -13,6 +13,10 @@ export class CustomerService {
 
     async getCustomer(id: string): Promise<Customer> {
         return await this.customerModel.findById(id).populate({ path: 'address', model: 'Address'});
+    }
+
+    async getCustomerByUser(user_id: string): Promise<Customer> {
+        return await this.customerModel.findOne({ user_id }).populate({ path: 'address', model: 'Address'});
     }
 
     async createCustomer(customer: Customer): Promise<Customer> {

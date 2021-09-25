@@ -7,6 +7,7 @@ import { Customer } from "./schema/customer.schema";
 export class CustomerController {
     constructor(private readonly customerService: CustomerService) { }
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     async getCustomers(): Promise<Customer[]> {
         return this.customerService.getCustomers();
@@ -16,6 +17,11 @@ export class CustomerController {
     @Get(':id')
     async getCustomer(@Param('id') id: string): Promise<Customer> {
         return this.customerService.getCustomer(id);
+    }
+
+    @Get('user/:id')
+    async getCustomerByUser(@Param('id') id: string): Promise<Customer> {
+        return this.customerService.getCustomerByUser(id);
     }
 
     @Post()
