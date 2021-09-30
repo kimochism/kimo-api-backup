@@ -10,11 +10,12 @@ export class Product {
   @Prop({ type: String, required: true })
   name: string;
 
-  @Prop({ type: String, required: true })
-  size: string;
-
-  @Prop({ type: String, required: true })
-  color: string;
+  @Prop({ type: Array, required: true })
+  varieties: {
+    color: string;
+    size: string;
+    quantity: number;
+  }[];
   
   @Prop({ type: String, required: true })
   type: string;

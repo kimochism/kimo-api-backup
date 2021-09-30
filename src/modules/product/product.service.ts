@@ -28,7 +28,7 @@ export class ProductService {
     }
 
     async getProduct(id: string): Promise<ProductDocument> {
-        return await this.productModel.findById(id);
+        return await this.productModel.findById(id).populate({ path: 'images', model: 'Image'}).exec();
     }
 
     async createProduct(product: Product): Promise<Product> {
