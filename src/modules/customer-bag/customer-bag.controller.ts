@@ -1,16 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
 import { CustomerBagService } from "./customer-bag.service";
 import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
 import { CustomerBag } from "./schema/customer-bag.schema";
+import { Request } from "express";
 
 @Controller('customerBags')
 export class CustomerBagController {
     constructor(private readonly customerBagService: CustomerBagService) { }
 
     @UseGuards(JwtAuthGuard)
-    @Get()
-    async getCustomerBags(): Promise<CustomerBag[]> {
-        return this.customerBagService.getCustomerBags();
+    @Get('/email/:email')
+    async getCustomerBags(@Param('email') email: string): Promise<CustomerBag[]> {
+        return this.customerBagService.getCustomerBags(email);
     }
 
     @UseGuards(JwtAuthGuard)

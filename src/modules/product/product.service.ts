@@ -21,7 +21,7 @@ export class ProductService {
 
         return {
             data,
-            total: data.length,
+            total: Number(await this.productModel.count()),
             offset: Number(options.offset) || 0,
             limit: Number(options.limit) || 10,
         };

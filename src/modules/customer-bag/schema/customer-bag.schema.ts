@@ -9,11 +9,17 @@ export class CustomerBag {
   @Prop({ type: Number, required: true })
   quantity: number;
 
-  @Prop({ type: String, required: true })
-  customer_id: string;
+  @Prop({ type: Object, required: true })
+  options: {
+    size: string;
+    color: string;
+  };
 
   @Prop({ type: String, required: true })
-  product_id: string;
+  customer: string;
+
+  @Prop({ type: String, required: true })
+  product: string;
 }
 
 export const CustomerBagSchema = SchemaFactory.createForClass(CustomerBag);
