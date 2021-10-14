@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { CustomerService } from "./customer.service";
 import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
-import { Customer } from "./schema/customer.schema";
+import { Customer, CustomerModel } from "./schema/customer.schema";
 
 @Controller('customers')
 export class CustomerController {
@@ -9,29 +9,29 @@ export class CustomerController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    async getCustomers(): Promise<Customer[]> {
+    async getCustomers(): Promise<CustomerModel[]> {
         return this.customerService.getCustomers();
     }
 
     @UseGuards(JwtAuthGuard)
     @Get(':id')
-    async getCustomer(@Param('id') id: string): Promise<Customer> {
+    async getCustomer(@Param('id') id: string): Promise<CustomerModel> {
         return this.customerService.getCustomer(id);
     }
 
     @Get('user/:id')
-    async getCustomerByUser(@Param('id') id: string): Promise<Customer> {
+    async getCustomerByUser(@Param('id') id: string): Promise<CustomerModel> {
         return this.customerService.getCustomerByUser(id);
     }
 
     @Post()
-    async createCustomer(@Body() customer: Customer): Promise<Customer> {
+    async createCustomer(@Body() customer: CustomerModel): Promise<CustomerModel> {
         return this.customerService.createCustomer(customer);
     }
 
     @UseGuards(JwtAuthGuard)
     @Put(':id')
-    async updateCustomer(@Param('id') id: string, @Body() customer: Customer): Promise<Customer>{
+    async updateCustomer(@Param('id') id: string, @Body() customer: CustomerModel): Promise<CustomerModel>{
         return this.customerService.updateCustomer(id, customer);
     }
 

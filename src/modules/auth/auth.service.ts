@@ -3,6 +3,8 @@ import { User } from 'src/modules/user/schema/user.schema';
 import { UserService } from 'src/modules/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { sendEmail } from '../../utils/sendEmail';
+import { confirmEmailLink } from 'src/utils/confirmEmailLink';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +20,8 @@ export class AuthService {
             const match = await bcrypt.compare(password, user.password);
 
             if(match) {
-                return { email: user.email, id: user._id };
+                await sendEmail(user.email, await confirmEmailLink(user.id + ''));
+                return { email: user.email, id: user.id };
             }
             return null;
         }

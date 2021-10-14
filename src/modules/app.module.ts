@@ -12,11 +12,17 @@ import { OrderModule } from './order/order.module';
 import { ImageModule } from './image/image.module';
 import { CustomerBagModule } from './customer-bag/customer-bag.module';
 import { PaymentModule } from './payment/payment.module';
+import { SendGridModule } from '@anchan828/nest-sendgrid';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
+    SendGridModule.forRoot({
+      apikey: process.env.SENDGRID_API_KEY,
+    }),
     MongooseModule.forRoot(
-      'mongodb+srv://kimouser:kimochism25147900@@cluster0.qpbxg.mongodb.net/kimo-db?retryWrites=true&w=majority',
+      process.env.MONGO_CONNECTION
     ),
     UserModule,
     AuthModule,

@@ -1,30 +1,30 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
-import { Customer, CustomerDocument } from "./schema/customer.schema";
+import { Customer, CustomerModel,  } from "./schema/customer.schema";
 
 @Injectable()
 export class CustomerService {
-    constructor(@InjectModel(Customer.name) private readonly customerModel: Model<CustomerDocument>) { }
+    constructor(@InjectModel(Customer.name) private readonly customerModel: Model<CustomerModel>) { }
 
-    async getCustomers(): Promise<Customer[]> {
+    async getCustomers(): Promise<CustomerModel[]> {
         return await this.customerModel.find().populate({ path: 'address', model: 'Address'});
     }
 
-    async getCustomer(id: string): Promise<Customer> {
+    async getCustomer(id: string): Promise<CustomerModel> {
         return await this.customerModel.findById(id).populate({ path: 'address', model: 'Address'});
     }
 
-    async getCustomerByUser(user_id: string): Promise<CustomerDocument> {
+    async getCustomerByUser(user_id: string): Promise<CustomerModel> {
         return await this.customerModel.findOne({ user_id }).populate({ path: 'address', model: 'Address'});
     }
 
-    async createCustomer(customer: Customer): Promise<Customer> {
+    async createCustomer(customer: CustomerModel): Promise<CustomerModel> {
         const newCustomer = await this.customerModel.create(customer);
         return newCustomer;
     }
 
-    async updateCustomer(id: string, customer: Customer): Promise<Customer> {
+    async updateCustomer(id: string, customer: CustomerModel): Promise<CustomerModel> {
         const foundCustomer = await this.customerModel.findById(id);
 
         if (!foundCustomer) {

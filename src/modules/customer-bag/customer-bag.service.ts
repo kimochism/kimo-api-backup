@@ -18,11 +18,11 @@ export class CustomerBagService {
         const foundUser = await this.userService.getUserByEmail(email);
 
         if (foundUser) {
-            const foundCustomer = await this.customerService.getCustomerByUser(foundUser._id as unknown as string);
+            const foundCustomer = await this.customerService.getCustomerByUser(foundUser.id as unknown as string);
 
             if (foundCustomer) {
                 const customerBags = await this.customerBagModel
-                    .find({ customer: foundCustomer._id })
+                    .find({ customer: foundCustomer.id })
                     .populate({ path: 'customer', model: 'Customer' })
                     .populate({ path: 'product', model: 'Product', populate: { path: 'images', model: 'Image' } })
                     .exec();
@@ -41,11 +41,11 @@ export class CustomerBagService {
         const foundUser = await this.userService.getUserByEmail(customerBag.email);
 
         if (foundUser) {
-            const foundCustomer = await this.customerService.getCustomerByUser(foundUser._id as unknown as string);
+            const foundCustomer = await this.customerService.getCustomerByUser(foundUser.id as unknown as string);
 
             if (foundCustomer) {
 
-                customerBag.customer = foundCustomer._id as unknown as string;
+                customerBag.customer = foundCustomer.id as unknown as string;
 
                 const newCustomerBag = await this.customerBagModel.create(customerBag);
 

@@ -1,13 +1,18 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
-export type CustomerDocument = Customer & Document;
+export interface CustomerModel extends Document {
+    readonly id: string;
+    readonly document: string;
+    readonly full_name: string;
+    readonly cell_phone_number: string;
+    readonly birth_date: Date;
+    readonly user_id: string;
+    readonly address: string[];
+}
 
 @Schema({ timestamps: true, id: true })
 export class Customer {
-    
-    @Prop({ type: Types.ObjectId, unique: true })
-    _id: Types.ObjectId;
 
     @Prop({ type: String, unique: true })
     document: string;
