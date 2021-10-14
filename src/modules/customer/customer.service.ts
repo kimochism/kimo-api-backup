@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException, NotAcceptableException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { Customer, CustomerModel,  } from "./schema/customer.schema";
@@ -12,7 +12,10 @@ export class CustomerService {
     }
 
     async getCustomer(id: string): Promise<CustomerModel> {
-        return await this.customerModel.findById(id).populate({ path: 'address', model: 'Address'});
+        const foundCustomer = await this.customerModel.findById(id).exec();
+
+        if(foundCustomer) return foundCustomer;
+        throw new NotFoundException(`Não foi possível encontrar cliente com id '${id}'.`);
     }
 
     async getCustomerByUser(user_id: string): Promise<CustomerModel> {
@@ -20,6 +23,21 @@ export class CustomerService {
     }
 
     async createCustomer(customer: CustomerModel): Promise<CustomerModel> {
+
+        const foundCustomerByUser = await this.getCustomerByUser(customer.user_id);
+
+        if(foundCustomerByUser) {
+            if(foundCustomerByUser.document === customer.document) throw new NotAcceptableException('CPF já cadastrado.');
+            
+            throw new NotAcceptableException(`Email já cadastrado.`);
+        }
+
+        if(!foundCustomerByUser) {
+            const foundCustomerByCpf = await this.customerModel.findOne({ document: customer.document });
+
+            if(foundCustomerByCpf) throw new NotAcceptableException('CPF já cadastrado.');
+        }
+
         const newCustomer = await this.customerModel.create(customer);
         return newCustomer;
     }

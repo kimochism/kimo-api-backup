@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, NotAcceptableException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { User, UserModel } from "./schema/user.schema";
@@ -27,6 +27,13 @@ export class UserService {
     }
 
     async createUser(user: UserModel): Promise<UserModel> {
+
+        const foundUser = await this.userModel.findOne({ email: user.email });
+
+        if(foundUser) {
+            throw new NotAcceptableException(`Usuário já cadastrado com esse email, '${user.email}'.`);
+        }
+
         user.password = await bcrypt.hash(user.password, await bcrypt.genSalt());
         const newUser = await this.userModel.create(user);
 

@@ -20,7 +20,11 @@ export class AuthService {
             const match = await bcrypt.compare(password, user.password);
 
             if(match) {
-                await sendEmail(user.email, await confirmEmailLink(user.id + ''));
+
+                if(!user.email_verified) {
+                    await sendEmail(user.email, await confirmEmailLink(user.id.toString()));
+                }
+
                 return { email: user.email, id: user.id };
             }
             return null;
