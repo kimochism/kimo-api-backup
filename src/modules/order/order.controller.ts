@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { OrderService } from "./order.service";
 import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
-import { Order } from "./schema/order.schema";
+import { OrderModel } from "./schema/order.schema";
 
 @Controller('orders')
 export class OrderController {
@@ -9,26 +9,26 @@ export class OrderController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    async getOrders(): Promise<Order[]> {
+    async getOrders(): Promise<OrderModel[]> {
         return this.orderService.getOrders();
     }
 
     @UseGuards(JwtAuthGuard)
     @Get(':id')
-    async getOrder(@Param('id') id: string): Promise<Order> {
+    async getOrder(@Param('id') id: string): Promise<OrderModel> {
         return this.orderService.getOrder(id);
     }
     
     @UseGuards(JwtAuthGuard)
     @Post()
-    async createOrder(@Body() order: Order): Promise<Order> {
+    async createOrder(@Body() order: OrderModel): Promise<OrderModel> {
         return this.orderService.createOrder(order);
     }
 
     @UseGuards(JwtAuthGuard)
     @Put(':id')
-    async updateOrder(@Param('id') id: string, @Body() Order: Order): Promise<Order>{
-        return this.orderService.updateOrder(id, Order);
+    async updateOrder(@Param('id') id: string, @Body() order: OrderModel): Promise<OrderModel>{
+        return this.orderService.updateOrder(id, order);
     }
 
     @UseGuards(JwtAuthGuard)

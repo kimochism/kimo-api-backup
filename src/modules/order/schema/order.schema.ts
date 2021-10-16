@@ -1,7 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type OrderDocument = Order & Document;
+export interface OrderModel extends Document {
+  readonly id: string;
+  readonly status: string;  
+  readonly sent: boolean;  
+  readonly delivered: boolean;  
+  readonly amount: number;
+  readonly freight: number;
+  readonly customer_id: string;
+  readonly products: string[];
+}
 
 @Schema({ timestamps: true })
 export class Order {
@@ -26,7 +35,6 @@ export class Order {
 
   @Prop({ type: Array, required: false })
   products: string[]
-
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);

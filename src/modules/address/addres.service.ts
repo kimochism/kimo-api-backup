@@ -1,32 +1,32 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
-import { Address, AddressDocument } from "./schema/address.schema";
+import { Address, AddressModel } from "./schema/address.schema";
 
 @Injectable()
 export class AddressService {
     constructor(
-        @InjectModel(Address.name) private readonly addressModel: Model<AddressDocument>,
+        @InjectModel(Address.name) private readonly addressModel: Model<AddressModel>,
     ) { }
 
-    async getAllAddresss(): Promise<Address[]> {
+    async getAllAddresss(): Promise<AddressModel[]> {
         const allAddresss = this.addressModel.find({});
 
         return allAddresss;
     }
 
-    async getAddress(id: string): Promise<Address> {
+    async getAddress(id: string): Promise<AddressModel> {
         const address = await this.addressModel.findById(id);
 
         return address;
     }
 
-    async createAddress(address: Address): Promise<Address> {
+    async createAddress(address: AddressModel): Promise<AddressModel> {
         const newAddress = await this.addressModel.create(address);
         return newAddress;
     }
 
-    async updateAddress(id: string, address: Address): Promise<Address> {
+    async updateAddress(id: string, address: AddressModel): Promise<AddressModel> {
         const foundAddress = await this.addressModel.findById(id);
 
         if (!foundAddress) {

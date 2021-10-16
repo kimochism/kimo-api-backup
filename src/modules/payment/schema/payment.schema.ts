@@ -1,7 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type PaymentDocument = Payment & Document;
+export interface PaymentModel extends Document {
+  readonly id: string;
+  readonly status: string;
+  readonly amount: number;
+  readonly installments: number;
+  readonly payment_method_code: number;
+  readonly payment_type: number;
+  readonly order_id: string;
+}
 
 @Schema({ timestamps: true })
 export class Payment {

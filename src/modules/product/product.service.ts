@@ -2,13 +2,13 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { QueryOptions } from "src/shared/query-options";
-import { Product, ProductDocument } from "./schema/product.schema";
+import { Product, ProductModel } from "./schema/product.schema";
 
 @Injectable()
 export class ProductService {
-    constructor(@InjectModel(Product.name) private readonly productModel: Model<ProductDocument>) { }
+    constructor(@InjectModel(Product.name) private readonly productModel: Model<ProductModel>) { }
 
-    async getProducts(options: QueryOptions): Promise<{ data: Product[]; total?: number, offset?: number, limit?: number }> {
+    async getProducts(options: QueryOptions): Promise<{ data: ProductModel[]; total?: number, offset?: number, limit?: number }> {
 
         const data = await this.productModel
             .find(options.fields ? { [options.fields]: options.text} : {}, (err, doc) => {
@@ -27,16 +27,16 @@ export class ProductService {
         };
     }
 
-    async getProduct(id: string): Promise<ProductDocument> {
+    async getProduct(id: string): Promise<ProductModel> {
         return await this.productModel.findById(id).populate({ path: 'images', model: 'Image'}).exec();
     }
 
-    async createProduct(product: Product): Promise<Product> {
+    async createProduct(product: ProductModel): Promise<ProductModel> {
         const newProduct = await this.productModel.create(product);
         return newProduct;
     }
 
-    async updateProduct(id: string, product: Product): Promise<Product> {
+    async updateProduct(id: string, product: ProductModel): Promise<ProductModel> {
 
         const foundProduct = await this.productModel.findById(id);
 

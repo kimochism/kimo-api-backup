@@ -1,7 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type AddressDocument = Address & Document;
+export interface AddressModel extends Document {
+    readonly id: string;
+    readonly zip_code: string;
+    readonly street: string;
+    readonly number: string;
+    readonly complement: string;
+    readonly district: string;
+    readonly city: string;
+    readonly state: string;
+    readonly reference: string;
+}
 
 @Schema({ timestamps: true, id: true })
 export class Address {

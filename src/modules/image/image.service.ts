@@ -1,25 +1,25 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
-import { Image, ImageDocument } from "./schema/image.schema";
+import { Image, ImageModel } from "./schema/image.schema";
 import firebase from 'firebase';
 import 'firebase/storage';
 
 @Injectable()
 export class ImageService {
     constructor(
-        @InjectModel(Image.name) private readonly imageModel: Model<ImageDocument>,
+        @InjectModel(Image.name) private readonly imageModel: Model<ImageModel>,
     ) { }
 
-    async getImages(): Promise<Image[]> {
+    async getImages(): Promise<ImageModel[]> {
         return await this.imageModel.find().exec();
     }
 
-    async getImage(id: string): Promise<Image> {
+    async getImage(id: string): Promise<ImageModel> {
         return await this.imageModel.findById(id).exec();
     }
 
-    async createImage(file: Express.Multer.File, image: Image): Promise<any> {
+    async createImage(file: Express.Multer.File, image: ImageModel): Promise<any> {
 
         const newImage = await this.imageModel.create(image);
 
@@ -36,7 +36,7 @@ export class ImageService {
         return newImage;
     }
 
-    async updateImage(id: string, image: Image): Promise<Image> {
+    async updateImage(id: string, image: ImageModel): Promise<ImageModel> {
         const foundImage = await this.imageModel.findById(id);
 
         if (!foundImage) {

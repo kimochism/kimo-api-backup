@@ -1,15 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
-import { Order, OrderDocument } from "./schema/order.schema";
+import { Order, OrderModel } from "./schema/order.schema";
 
 @Injectable()
 export class OrderService {
     constructor(
-        @InjectModel(Order.name) private readonly orderModel: Model<OrderDocument>,
+        @InjectModel(Order.name) private readonly orderModel: Model<OrderModel>,
     ) { }
 
-    async getOrders(): Promise<Order[]> {
+    async getOrders(): Promise<OrderModel[]> {
         const orders = this.orderModel
             .find()
             .populate({ path: 'products', model: 'Product'})
@@ -18,16 +18,16 @@ export class OrderService {
         return orders;
     }
 
-    async getOrder(id: string): Promise<Order> {
+    async getOrder(id: string): Promise<OrderModel> {
         return await this.orderModel.findById(id).populate({ path: 'products', model: 'Product'}).exec();
     }
 
-    async createOrder(order: Order): Promise<Order> {
+    async createOrder(order: OrderModel): Promise<OrderModel> {
         const newOrder = await this.orderModel.create(order);
         return newOrder;
     }
 
-    async updateOrder(id: string, order: Order): Promise<Order> {
+    async updateOrder(id: string, order: OrderModel): Promise<OrderModel> {
         const foundOrder = await this.orderModel.findById(id);
 
         if (!foundOrder) {

@@ -2,7 +2,22 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoosePagination from 'mongoose-paginate-v2';
 
-export type ProductDocument = Product & Document;
+export interface ProductModel extends Document {
+  readonly id: string;
+  readonly name: string;
+  readonly varieties: {
+    color: {
+      label: string;
+      name: string;
+    };
+    size: string;
+    quantity: number;
+  }[];
+  readonly type: string;
+  readonly price: number;
+  readonly discount_price: number;
+  readonly images: string[]
+}
 
 @Schema({ timestamps: true })
 export class Product {
@@ -12,7 +27,10 @@ export class Product {
 
   @Prop({ type: Array, required: true })
   varieties: {
-    color: string;
+    color: {
+      label: string;
+      name: string;
+    };
     size: string;
     quantity: number;
   }[];

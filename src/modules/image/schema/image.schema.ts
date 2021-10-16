@@ -1,7 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type ImageDocument = Image & Document;
+export interface ImageModel extends Document {
+  readonly id: string;
+  readonly url?: string;
+  readonly name?: string;
+  readonly product_id?: string;
+}
 
 @Schema({ timestamps: true })
 export class Image {

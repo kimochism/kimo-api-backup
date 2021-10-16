@@ -1,7 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type CustomerBagDocument = CustomerBag & Document;
+export interface CustomerBagModel extends Document {
+  readonly id: string;
+  quantity: number;
+  readonly options: {
+    size: number;
+    color: {
+      label: string;
+      name: string;
+    }
+  };
+  readonly customer: string;
+  readonly product: string;
+}
 
 @Schema({ timestamps: true })
 export class CustomerBag {
@@ -11,8 +23,11 @@ export class CustomerBag {
 
   @Prop({ type: Object, required: true })
   options: {
-    size: string;
-    color: string;
+    size: number;
+    color: {
+      label: string;
+      name: string;
+    };
   };
 
   @Prop({ type: String, required: true })
