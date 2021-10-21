@@ -5,11 +5,13 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { sendEmail } from '../../utils/sendEmail';
 import { confirmEmailLink } from 'src/utils/confirmEmailLink';
+import { CustomerService } from '../customer/customer.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         private userService: UserService,
+        private customerService: CustomerService,
         private jwtService: JwtService
     ) { }
 
@@ -19,10 +21,12 @@ export class AuthService {
         if (user) {
             const match = await bcrypt.compare(password, user.password);
 
+            const customer = await this.customerService.getCustomerByUser(user.id);
+
             if(match) {
 
                 if(!user.email_verified) {
-                    await sendEmail(user.email, await confirmEmailLink(user.id.toString()));
+                    await sendEmail(user.email, await confirmEmailLink(user.id.toString()), customer.full_name.split(" ")[0]);
                 }
 
                 return { email: user.email, id: user.id };

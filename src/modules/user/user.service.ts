@@ -65,14 +65,17 @@ export class UserService {
 
     async confirmEmailUser(id: string): Promise<boolean> {
 
-        redis.get(id, async (err, result) => {
-            if (err) {
-                return false;
+        let confirmed = false;
+
+        await redis.get(id, async (err, result) => {
+            if (err || result === null) {
+                confirmed = false;
             } else {
+                confirmed = true;
                 await this.userModel.updateOne({ _id: Types.ObjectId(result) }, { $set: { email_verified: true } });
-                return true;
             }
         });
-        return true;
+
+        return confirmed;
     }
 }

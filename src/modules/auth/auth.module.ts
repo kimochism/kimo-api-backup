@@ -7,15 +7,17 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { AuthController } from './auth.controller';
+import { CustomerModule } from '../customer/customer.module';
 
 @Module({
   imports: [
-    UserModule,
-    PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '3h'},
-    })
+    }),
+    UserModule,
+    PassportModule,
+    CustomerModule,
   ],
   providers: [
     AuthService,

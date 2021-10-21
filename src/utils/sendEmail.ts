@@ -2,19 +2,18 @@ import * as nodemailer from 'nodemailer';
 import * as handleblars from 'nodemailer-express-handlebars';
 import * as path from 'path';
 
-const { SENDGRID_API_KEY } = process.env;
+// const { SENDGRID_API_KEY } = process.env;
 
 // async..await is not allowed in global scope, must use a wrapper
-export const sendEmail = async (email: string, link: string) => {
+export const sendEmail = async (email: string, link: string, name: string) => {
   
   // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
-    host: "smtp.sendgrid.net",
-    port: 465,
-    secure: true,
+    service: 'gmail',
+    host: "smtp.gmail.com",
     auth: {
-      user: 'apikey', // generated sendgrid user
-      pass: SENDGRID_API_KEY, // generated sendgrid password
+      user: 'kimochism.store@gmail.com', // generated sendgrid user
+      pass: '25147900ASD@', // generated sendgrid password
     },
   });
   
@@ -35,7 +34,8 @@ export const sendEmail = async (email: string, link: string) => {
     //@ts-ignore
     template: 'main',
     context: {
-      link
+      link,
+      name,
     }
   });
 
