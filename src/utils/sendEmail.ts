@@ -2,21 +2,33 @@ import * as nodemailer from 'nodemailer';
 import * as handleblars from 'nodemailer-express-handlebars';
 import * as path from 'path';
 
-// const { SENDGRID_API_KEY } = process.env;
+const { GMAIL_EMAIL, GMAIL_PASSWORD } = process.env;
 
-// async..await is not allowed in global scope, must use a wrapper
 export const sendEmail = async (email: string, link: string, name: string) => {
-  
-  // create reusable transporter object using the default SMTP transport
+
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     host: "smtp.gmail.com",
+    port: 465,
     auth: {
-      user: 'kimochism.store@gmail.com', // generated sendgrid user
-      pass: '25147900ASD@', // generated sendgrid password
+      user: GMAIL_EMAIL,
+      pass: GMAIL_PASSWORD,
     },
+    secure: true
   });
-  
+
+  await new Promise((resolve, reject) => {
+    transporter.verify(function (error, success) {
+      if (error) {
+        console.log(error);
+        reject(error);
+      } else {
+        console.log("Server is ready to take our messages");
+        resolve(success);
+      }
+    });
+  });
+
   transporter.use('compile', handleblars({
     viewEngine: {
       partialsDir: path.join(__dirname, '../../src/views/'),
@@ -25,11 +37,11 @@ export const sendEmail = async (email: string, link: string, name: string) => {
     viewPath: path.join(__dirname, '../../src/views/')
   }));
 
-  // send mail with defined transport object
-  const info = await transporter.sendMail({
-    from: 'kimochism.store@gmail.com', // sender address
-    to: email, // list of receivers
-    subject: 'Confirmação de email', // Subject line
+  const mailData = {
+    from: GMAIL_EMAIL,
+    text: 'Kimochism 気持ち',
+    to: email,
+    subject: 'Confirmação de email',
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
     template: 'main',
@@ -37,8 +49,19 @@ export const sendEmail = async (email: string, link: string, name: string) => {
       link,
       name,
     }
+  };
+
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(mailData, (err, info) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        console.log("Message sent: %s", info.messageId);
+        resolve(info);
+      }
+    });
   });
 
-  console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
 }
