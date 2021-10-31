@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import * as mongoosePagination from 'mongoose-paginate-v2';
 
 export interface ProductModel extends Document {
   readonly id: string;
@@ -49,5 +48,5 @@ export class Product {
 
 }
 
-export const ProductSchema = SchemaFactory.createForClass(Product).plugin(mongoosePagination);
+export const ProductSchema = SchemaFactory.createForClass(Product);
 

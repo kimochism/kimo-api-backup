@@ -2,17 +2,16 @@ import * as nodemailer from 'nodemailer';
 import * as handleblars from 'nodemailer-express-handlebars';
 import * as path from 'path';
 
-const { GMAIL_EMAIL, GMAIL_PASSWORD } = process.env;
+const { SENDGRID_API_KEY, STORE_EMAIL } = process.env;
 
 export const sendEmail = async (email: string, link: string, name: string) => {
 
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host: "smtp.gmail.com",
+    host: "smtp.sendgrid.net",
     port: 465,
     auth: {
-      user: GMAIL_EMAIL,
-      pass: GMAIL_PASSWORD,
+      user: 'apikey',
+      pass: SENDGRID_API_KEY,
     },
     secure: true
   });
@@ -38,7 +37,7 @@ export const sendEmail = async (email: string, link: string, name: string) => {
   }));
 
   const mailData = {
-    from: GMAIL_EMAIL,
+    from: STORE_EMAIL,
     text: 'Kimochism 気持ち',
     to: email,
     subject: 'Confirmação de email',
