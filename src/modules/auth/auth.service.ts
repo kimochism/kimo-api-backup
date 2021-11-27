@@ -3,16 +3,17 @@ import { User } from 'src/modules/user/schema/user.schema';
 import { UserService } from 'src/modules/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { sendEmail } from '../../utils/sendEmail';
 import { confirmEmailLink } from 'src/utils/confirmEmailLink';
 import { CustomerService } from '../customer/customer.service';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         private userService: UserService,
         private customerService: CustomerService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private emailService: EmailService,
     ) { }
 
     async auth(email: string, password: string): Promise<any> {
@@ -26,7 +27,16 @@ export class AuthService {
             if(match) {
 
                 if(!user.email_verified) {
-                    await sendEmail(user.email, await confirmEmailLink(user.id.toString()), customer.full_name.split(" ")[0]);
+                    await this.emailService.sendMail(
+                        user.email, 
+                        'Confirmação de email', 
+                        'Kimochism 気持ち',
+                        'emailConfirmation',
+                        { 
+                            link: await confirmEmailLink(user.id.toString()),
+                            name: customer.full_name.split(" ")[0]
+                        }
+                    );
                 }
 
                 return { email: user.email, id: user.id };

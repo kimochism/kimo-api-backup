@@ -13,6 +13,7 @@ import { ImageModule } from './image/image.module';
 import { CustomerBagModule } from './customer-bag/customer-bag.module';
 import { PaymentModule } from './payment/payment.module';
 import { ConfigModule } from '@nestjs/config';
+import { FreightModule } from './freight/freight.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ConfigModule } from '@nestjs/config';
     ImageModule,
     CustomerBagModule,
     PaymentModule,
+    FreightModule,
   ],
   controllers: [AppController],
   providers: [AppService],

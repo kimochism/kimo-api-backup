@@ -8,16 +8,17 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { AuthController } from './auth.controller';
 import { CustomerModule } from '../customer/customer.module';
+import { EmailModule } from '../email/email.module';
 
 @Module({
   imports: [
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '3h'},
     }),
     UserModule,
     PassportModule,
     CustomerModule,
+    EmailModule,
   ],
   providers: [
     AuthService,
