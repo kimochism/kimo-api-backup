@@ -4,11 +4,13 @@ import { Model, Types } from "mongoose";
 import { Image, ImageModel } from "./schema/image.schema";
 import firebase from 'firebase';
 import 'firebase/storage';
+import { ProductService } from "../product/product.service";
 
 @Injectable()
 export class ImageService {
     constructor(
         @InjectModel(Image.name) private readonly imageModel: Model<ImageModel>,
+        private readonly productService: ProductService
     ) { }
 
     async getImages(): Promise<ImageModel[]> {
@@ -27,12 +29,16 @@ export class ImageService {
         const reference = firebase.storage().ref(referenceUrl);
 
         await reference.put(file.buffer);
-
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
+        
         newImage.url = await firebase.storage().ref(referenceUrl).getDownloadURL();
 
         newImage.save();
+
+        const foundProduct = await this.productService.getProduct(newImage.product_id);
+
+        foundProduct.images = [newImage.id];
+
+        await this.productService.updateProduct(image.product_id, foundProduct);
         return newImage;
     }
 

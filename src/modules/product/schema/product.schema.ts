@@ -15,7 +15,7 @@ export interface ProductModel extends Document {
   readonly type: string;
   readonly price: number;
   readonly discount_price: number;
-  readonly images: string[]
+  images: string[]
 }
 
 @Schema({ timestamps: true })

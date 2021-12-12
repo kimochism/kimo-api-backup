@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export interface ImageModel extends Document {
   readonly id: string;
-  readonly url?: string;
+  url?: string;
   readonly name?: string;
   readonly product_id?: string;
 }
