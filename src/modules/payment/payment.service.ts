@@ -1,23 +1,51 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
+import { CreatePaymentPayload } from "mercadopago/models/payment/create-payload.model";
 import { Model, Types } from "mongoose";
+import { PaidMarketService } from "../paid-market/paid-market.service";
 import { Payment, PaymentModel } from "./schema/payment.schema";
 
 @Injectable()
 export class PaymentService {
-    constructor(@InjectModel(Payment.name) private readonly paymentModel: Model<PaymentModel>) { }
+    constructor(
+        @InjectModel(Payment.name) private readonly paymentModel: Model<PaymentModel>,
+        private readonly paidMarketService: PaidMarketService
+    ) { }
 
     async getPayments(): Promise<PaymentModel[]> {
-        return await this.paymentModel.find().populate({ path: 'order_id', model: 'Order'});
+        return await this.paymentModel.find().populate({ path: 'order_id', model: 'Order' });
     }
 
     async getPayment(id: string): Promise<PaymentModel> {
-        return await this.paymentModel.findById(id).populate({ path: 'order_id', model: 'Order'});
+        return await this.paymentModel.findById(id).populate({ path: 'order_id', model: 'Order' });
     }
 
-    async createPayment(payment: PaymentModel): Promise<PaymentModel> {
-        const newPayment = await this.paymentModel.create(payment);
-        return newPayment;
+    async createPayment(payment: CreatePaymentPayload): Promise<any> {
+        
+        return this.paidMarketService.savePayment(payment).then(async response => {
+            
+            console.log(response);
+
+            const {
+                status,
+                transaction_amount,
+                installments,
+                payment_method_id,
+                payment_type_id,
+                metadata
+            } = response.body;
+
+            const newPayment = await this.paymentModel.create({
+                amount: transaction_amount,
+                payment_method_code: payment_method_id,
+                payment_type: payment_type_id,
+                order_id: metadata.order_id,
+                status,
+                installments,
+            });
+
+            return newPayment;
+        }).catch(error => { return error });
     }
 
     async updatePayment(id: string, payment: PaymentModel): Promise<PaymentModel> {
@@ -27,7 +55,7 @@ export class PaymentService {
             return;
         }
 
-        await this.paymentModel.updateOne({_id: Types.ObjectId(id)}, payment);
+        await this.paymentModel.updateOne({ _id: Types.ObjectId(id) }, payment);
 
         return await this.getPayment(id);
     }

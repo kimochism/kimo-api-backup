@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nes
 import { PaymentService } from "./payment.service";
 import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
 import { PaymentModel } from "./schema/payment.schema";
+import { CreatePaymentPayload } from "mercadopago/models/payment/create-payload.model";
 
 @UseGuards(JwtAuthGuard)
 @Controller('payments')
@@ -19,7 +20,7 @@ export class PaymentController {
     }
 
     @Post()
-    async createPayment(@Body() payment: PaymentModel): Promise<PaymentModel> {
+    async createPayment(@Body() payment: CreatePaymentPayload): Promise<PaymentModel> {
         return this.paymentService.createPayment(payment);
     }
 
