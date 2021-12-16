@@ -8,8 +8,6 @@ export class PaidMarketService {
     }
 
     async savePayment(paymentData: CreatePaymentPayload) {
-        const response = await payment.save(paymentData);
-        
-        return response;
+        return await payment.save(paymentData);
     }
 }

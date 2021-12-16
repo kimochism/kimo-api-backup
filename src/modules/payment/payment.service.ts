@@ -21,11 +21,10 @@ export class PaymentService {
     }
 
     async createPayment(payment: CreatePaymentPayload): Promise<any> {
-        
-        return this.paidMarketService.savePayment(payment).then(async response => {
-            
-            console.log(response);
 
+        const paidMarketResponse = await this.paidMarketService.savePayment(payment)
+
+        if(paidMarketResponse) {
             const {
                 status,
                 transaction_amount,
@@ -33,7 +32,7 @@ export class PaymentService {
                 payment_method_id,
                 payment_type_id,
                 metadata
-            } = response.body;
+            } = paidMarketResponse.body;
 
             const newPayment = await this.paymentModel.create({
                 amount: transaction_amount,
@@ -41,11 +40,17 @@ export class PaymentService {
                 payment_type: payment_type_id,
                 order_id: metadata.order_id,
                 status,
-                installments,
+                installments
             });
 
-            return newPayment;
-        }).catch(error => { return error });
+            if(payment_type_id === 'credit_card') {
+
+                console.log('Que');
+                return newPayment;
+            }
+
+            return paidMarketResponse;
+        }
     }
 
     async updatePayment(id: string, payment: PaymentModel): Promise<PaymentModel> {
