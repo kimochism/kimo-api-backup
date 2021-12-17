@@ -6,7 +6,7 @@ global.XMLHttpRequest = require("xhr2");
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
-  app.enableCors();
+  app.enableCors({ origin: '*' });
   await app.listen(process.env.PORT || 3333);
   firebase.initializeApp(firebaseConfig);
 }

@@ -29,6 +29,8 @@
         "@nestjs/mongoose": "^7.2.4",
         "@nestjs/passport": "^7.1.5",
         "@nestjs/platform-express": "^7.6.15",
+        "@nestjs/platform-socket.io": "^8.2.3",
+        "@nestjs/websockets": "^8.2.3",
         "@sendgrid/mail": "^7.4.7",
         "axios": "^0.24.0",
         "bcrypt": "^5.0.1",
