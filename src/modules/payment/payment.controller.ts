@@ -1,13 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
-import { PaymentService } from "./payment.service";
-import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
-import { PaymentModel } from "./schema/payment.schema";
-import { CreatePaymentPayload } from "mercadopago/models/payment/create-payload.model";
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { PaymentService } from './payment.service';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
+import { PaymentModel } from './schema/payment.schema';
+import { CreatePaymentPayload } from 'mercadopago/models/payment/create-payload.model';
 
 
 @Controller('payments')
 export class PaymentController {
-    constructor(private readonly paymentService: PaymentService) { }
+    constructor(
+        private readonly paymentService: PaymentService,
+    ) { }
 
     @UseGuards(JwtAuthGuard)
     @Get()
@@ -39,8 +41,21 @@ export class PaymentController {
         return this.paymentService.deletePayment(id);
     }
 
-    @Post('notificationHook')
-    async paidMarketWebHook(@Body() body: any) {
-        console.log(body);
+    
+    @Post('paymentNotification')
+    async paymentNotification(@Body() body: any) {
+        this.paymentService.paymentNotification(body);
+    }
+
+    @Put('paidMarket/:id')
+    async cancelPayment(@Param('id') id: number) {
+
+        console.log(id);
+        return await this.paymentService.calcelPaidMarketPayment(id);
+    }
+
+    @Get('paidMarket/:id')
+    async getPaidMarketPayment(@Param('id') id: number) {
+        return await this.paymentService.getPaidMarketPayment(id);
     }
 }

@@ -1,9 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+export const OrderStatus = {
+  pending: 'PENDING', // pendente
+  charge: 'CHARGE', // cobrança
+  in_process: 'IN_PROCESS', // em processamento
+  in_separation: 'IN_SEPARATION', // em separação
+  shipped: 'SHIPPED', // enviado
+  delivered: 'DELIVERED', // entregue
+  not_delivered: 'NOT_DELIVERED', // não entregue
+  cancelled: 'CANCELLED', // cancelado
+};
 export interface OrderModel extends Document {
   readonly id: string;
-  readonly status: string;  
+  status: string;  
   readonly sent: boolean;  
   readonly delivered: boolean;  
   readonly amount: number;

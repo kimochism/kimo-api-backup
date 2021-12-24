@@ -1,6 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+export const PaymentStatus = {
+  pending: 'PENDING',
+  aprroved: 'APPROVED',
+  in_process: 'IN_PROCESS',
+  rejected: 'REJECTED',
+  cancelled: 'CANCELLED',
+};
 export interface PaymentModel extends Document {
   readonly id: string;
   readonly status: string;

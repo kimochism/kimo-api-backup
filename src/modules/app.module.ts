@@ -14,6 +14,8 @@ import { CustomerBagModule } from './customer-bag/customer-bag.module';
 import { PaymentModule } from './payment/payment.module';
 import { ConfigModule } from '@nestjs/config';
 import { FreightModule } from './freight/freight.module';
+import { SocketModule } from './socket/socket.module';
+import { AppGateway } from './app.gateway';
 
 @Module({
   imports: [
@@ -32,9 +34,10 @@ import { FreightModule } from './freight/freight.module';
     CustomerBagModule,
     PaymentModule,
     FreightModule,
+    SocketModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppGateway],
 })
 
 export class AppModule {}

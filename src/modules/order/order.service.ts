@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
-import { Order, OrderModel } from "./schema/order.schema";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
+import { Order, OrderModel } from './schema/order.schema';
 
 @Injectable()
 export class OrderService {
