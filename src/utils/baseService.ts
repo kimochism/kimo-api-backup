@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 export class BaseService {
     apiUrl: string;
 
@@ -47,7 +46,7 @@ export class BaseService {
     }
 
     async patch(serviceUrl: string, data: any, paramsValues = null) {
-        const endpoint = this.prepareEndpoint(serviceUrl);
+        const endpoint = this.prepareEndpoint(serviceUrl, paramsValues);
         const headers = this.prepareHeader();
 
         try {
@@ -79,6 +78,8 @@ export class BaseService {
         const buildedHeaders = {
             'Content-Type': 'application/json'
         };
+
+        console.log(headers);
 
         return { headers: buildedHeaders };
     }

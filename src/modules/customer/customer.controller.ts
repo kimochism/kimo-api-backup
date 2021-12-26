@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
-import { CustomerService } from "./customer.service";
-import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
-import { Customer, CustomerModel } from "./schema/customer.schema";
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { CustomerService } from './customer.service';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
+import { CustomerModel } from './schema/customer.schema';
 
 @Controller('customers')
 export class CustomerController {

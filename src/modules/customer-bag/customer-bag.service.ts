@@ -1,11 +1,11 @@
-import { forwardRef, Inject, Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
-import { CustomerService } from "../customer/customer.service";
-import { CustomerModel } from "../customer/schema/customer.schema";
-import { ProductModel } from "../product/schema/product.schema";
-import { UserService } from "../user/user.service";
-import { CustomerBag, CustomerBagModel } from "./schema/customer-bag.schema";
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
+import { CustomerService } from '../customer/customer.service';
+import { CustomerModel } from '../customer/schema/customer.schema';
+import { ProductModel } from '../product/schema/product.schema';
+import { UserService } from '../user/user.service';
+import { CustomerBag, CustomerBagModel } from './schema/customer-bag.schema';
 
 @Injectable()
 export class CustomerBagService {

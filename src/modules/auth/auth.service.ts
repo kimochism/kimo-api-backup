@@ -34,7 +34,7 @@ export class AuthService {
                         'emailConfirmation',
                         { 
                             link: await confirmEmailLink(user.id.toString()),
-                            name: customer.full_name.split(" ")[0]
+                            name: customer.full_name.split(' ')[0]
                         }
                     );
                 }

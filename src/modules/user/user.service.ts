@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException, NotAcceptableException } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
-import { User, UserModel } from "./schema/user.schema";
+import { Injectable, NotFoundException, NotAcceptableException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
+import { User, UserModel } from './schema/user.schema';
 import * as bcrypt from 'bcrypt';
 import { redis } from '../../redis';
 

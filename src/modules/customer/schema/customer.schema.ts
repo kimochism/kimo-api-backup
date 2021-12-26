@@ -30,7 +30,7 @@ export class Customer {
     user_id: string;
 
     @Prop({ type: Array })
-    address: string[];
+    addresses: string[];
 }
 
 export const CustomerSchema = SchemaFactory.createForClass(Customer);

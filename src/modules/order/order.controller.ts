@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
-import { OrderService } from "./order.service";
-import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
-import { OrderModel } from "./schema/order.schema";
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { OrderService } from './order.service';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
+import { OrderModel } from './schema/order.schema';
 
 @Controller('orders')
 export class OrderController {

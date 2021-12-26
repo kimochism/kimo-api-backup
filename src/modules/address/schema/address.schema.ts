@@ -11,6 +11,7 @@ export interface AddressModel extends Document {
     readonly city: string;
     readonly state: string;
     readonly reference: string;
+    readonly customer_id: string;
 }
 
 @Schema({ timestamps: true, id: true })
@@ -40,6 +41,8 @@ export class Address {
     @Prop({ type: String })
     reference: string;
 
+    @Prop({ type: String, required: true })
+    customer_id: string;
 }
 
 export const AddressSchema = SchemaFactory.createForClass(Address);

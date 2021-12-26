@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
-import { QueryOptions } from "src/shared/query-options";
-import { Collection, CollectionModel } from "./schema/collection.schema";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
+import { QueryOptions } from 'src/shared/query-options';
+import { Collection, CollectionModel } from './schema/collection.schema';
 
 @Injectable()
 export class CollectionService {

@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
-import { ImageService } from "./image.service";
-import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
-import { ImageModel } from "./schema/image.schema";
-import { FileInterceptor } from "@nestjs/platform-express";
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { ImageService } from './image.service';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
+import { ImageModel } from './schema/image.schema';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('images')
 export class ImageController {

@@ -1,9 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
-import { AddressService } from "./addres.service";
-import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
-import { AddressModel } from "./schema/address.schema";
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { AddressService } from './address.service';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
+import { AddressModel } from './schema/address.schema';
 
-@Controller('address')
+@Controller('addresses')
 export class AddressController {
     constructor(private readonly addressService: AddressService) { }
 
@@ -15,6 +15,11 @@ export class AddressController {
     @Get(':id')
     async getAddress(@Param('id') id: string): Promise<AddressModel> {
         return this.addressService.getAddress(id);
+    }
+
+    @Get('customer/:id')
+    async getAddressesByCustomer(@Param('id') id: string): Promise<AddressModel[]> {
+        return this.addressService.getAddressesByCustomer(id);
     }
     
     @UseGuards(JwtAuthGuard)

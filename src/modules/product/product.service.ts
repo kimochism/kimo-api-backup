@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
-import { QueryOptions } from "src/shared/query-options";
-import { Product, ProductModel } from "./schema/product.schema";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
+import { QueryOptions } from 'src/shared/query-options';
+import { Product, ProductModel } from './schema/product.schema';
 
 @Injectable()
 export class ProductService {

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 import { BaseService } from '../../utils/baseService';
 const { CORREIOS_FRETE_URL } = process.env;
 import { calcularPrecoPrazo, PrecoPrazoRequest } from 'correios-brasil';

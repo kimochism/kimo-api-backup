@@ -1,17 +1,15 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import * as handleblars from 'nodemailer-express-handlebars';
-import * as path from 'path';
-import sendgridConfig from "../../config/sendgrid.config";
+import sendgridConfig from '../../config/sendgrid.config';
 
 @Injectable()
 export class EmailService {
-    constructor() { }
 
     async sendMail(to: string, subject: string, text: string, template: string, context: any): Promise<any> {
 
         const transporter = nodemailer.createTransport({
-            host: "smtp.sendgrid.net",
+            host: 'smtp.sendgrid.net',
             port: 465,
             auth: {
                 user: 'apikey',
@@ -26,7 +24,7 @@ export class EmailService {
                     console.log(error);
                     reject(error);
                 } else {
-                    console.log("Server is ready to take our messages");
+                    console.log('Server is ready to take our messages');
                     resolve(success);
                 }
             });
@@ -56,7 +54,7 @@ export class EmailService {
                     console.error(err);
                     reject(err);
                 } else {
-                    console.log("Message sent: %s", info.messageId);
+                    console.log('Message sent: %s', info.messageId);
                     resolve(info);
                 }
             });

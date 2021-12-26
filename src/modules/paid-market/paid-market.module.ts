@@ -1,5 +1,5 @@
-import { Module } from "@nestjs/common";
-import { PaidMarketService } from "./paid-market.service";
+import { Module } from '@nestjs/common';
+import { PaidMarketService } from './paid-market.service';
 
 @Module({
     providers: [PaidMarketService],

@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
-import { Address, AddressModel } from "./schema/address.schema";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
+import { Address, AddressModel } from './schema/address.schema';
 
 @Injectable()
 export class AddressService {
@@ -19,6 +19,12 @@ export class AddressService {
         const address = await this.addressModel.findById(id);
 
         return address;
+    }
+
+    async getAddressesByCustomer(customer_id: string): Promise<AddressModel[]> {
+        const addresses = await this.addressModel.find({ customer_id });
+
+        return addresses;
     }
 
     async createAddress(address: AddressModel): Promise<AddressModel> {

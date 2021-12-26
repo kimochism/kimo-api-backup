@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException, NotAcceptableException } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
-import { Customer, CustomerModel,  } from "./schema/customer.schema";
+import { Injectable, NotFoundException, NotAcceptableException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
+import { Customer, CustomerModel,  } from './schema/customer.schema';
 
 @Injectable()
 export class CustomerService {
@@ -29,7 +29,7 @@ export class CustomerService {
         if(foundCustomerByUser) {
             if(foundCustomerByUser.document === customer.document) throw new NotAcceptableException('CPF já cadastrado.');
             
-            throw new NotAcceptableException(`Email já cadastrado.`);
+            throw new NotAcceptableException('Email já cadastrado.');
         }
 
         if(!foundCustomerByUser) {

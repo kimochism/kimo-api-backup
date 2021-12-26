@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
-import { Image, ImageModel } from "./schema/image.schema";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
+import { Image, ImageModel } from './schema/image.schema';
 import firebase from 'firebase';
 import 'firebase/storage';
-import { ProductService } from "../product/product.service";
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class ImageService {
