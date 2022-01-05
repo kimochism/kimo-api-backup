@@ -13,7 +13,6 @@ export class PaidMarketService {
     }
 
     async getPayment(paymentId: number) {
-        console.log(paymentId);
         return await payment.findById(paymentId);
     }
 
