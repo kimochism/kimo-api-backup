@@ -31,11 +31,7 @@ export class PaymentService {
 
         const payment = await this.paidMarketService.getPayment(id);
 
-        const { body: { status, metadata: { order_id } }} = payment;
-
-        // if(payment && payment.body.status === PaymentStatus.pending) {
-        //     this.socketService.socket.emit('receivedPix', status );
-        // }
+        const { body: { id: paymentId , status, metadata: { order_id } }} = payment;
 
         if(payment && status === PaymentStatus.aprroved) {
             
@@ -46,7 +42,10 @@ export class PaymentService {
                 await this.orderService.updateOrder(foundOrder.id, foundOrder);
             }
 
-            return this.socketService.socket.emit('receivedPix', PaymentStatus.aprroved);
+            return this.socketService.socket.emit('receivedPix', { id: paymentId, status: PaymentStatus.aprroved });
+        } else {
+            
+            return this.socketService.socket.emit('receivedPix', { id: paymentId, error: 'Ops, algo deu errado.', status });
         }
     }
 

@@ -4,10 +4,14 @@ import { Model, Types } from 'mongoose';
 import { User, UserModel } from './schema/user.schema';
 import * as bcrypt from 'bcrypt';
 import { redis } from '../../redis';
+import { SocketService } from '../socket/socket.service';
 
 @Injectable()
 export class UserService {
-    constructor(@InjectModel(User.name) private readonly userModel: Model<UserModel>) { }
+    constructor(
+        @InjectModel(User.name) private readonly userModel: Model<UserModel>,
+        private readonly socketService: SocketService,
+    ) { }
 
     async getUsers(): Promise<UserModel[]> {
         return await this.userModel.find();
@@ -67,12 +71,13 @@ export class UserService {
 
         let confirmed = false;
 
-        await redis.get(id, async (err, result) => {
+        redis.get(id, async (err, result) => {
             if (err || result === null) {
                 confirmed = false;
             } else {
                 confirmed = true;
                 await this.userModel.updateOne({ _id: Types.ObjectId(result) }, { $set: { email_verified: true } });
+                this.socketService.socket.emit('emailVerified', { verified: true });
             }
         });
 
