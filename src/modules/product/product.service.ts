@@ -14,6 +14,7 @@ export class ProductService {
             .find(options.fields ? { [options.fields]: options.text} : {}, (err, doc) => {
                 return doc;
             })
+            .sort({ priority:  -1 })
             .skip(Number(options.offset))
             .limit(Number(options.limit))
             .populate({ path: 'images', model: 'Image'})
@@ -50,13 +51,24 @@ export class ProductService {
     }
 
     async deleteProduct(id: string): Promise<boolean> {
-        const foundProduct = this.productModel.findById(id);
+        const foundProduct = await this.productModel.findById(id);
 
         if (!foundProduct) {
             return false;
         }
 
         await this.productModel.deleteOne({ _id: id }).exec();
+        return true;
+    }
+
+    async updatePrices(): Promise<boolean> {
+
+        console.log('OK');
+        await this.productModel.updateMany({}, {
+            price: 89.90,
+            discount_price: 69.90
+        }).exec();
+
         return true;
     }
 }

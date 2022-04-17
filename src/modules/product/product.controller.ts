@@ -35,4 +35,13 @@ export class ProductController {
     async deleteProduct(@Param('id') id: string): Promise<boolean> {
         return this.productService.deleteProduct(id);
     }
+
+    @Get('/updatePrices')
+    async updatePrices(): Promise<any> {
+
+        console.log('Chegou aq');
+
+        return { ok: 'Success' };
+        // return this.productService.updatePrices();
+    }
 }

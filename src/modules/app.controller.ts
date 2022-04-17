@@ -8,7 +8,7 @@ export class AppController {
   ) { }
 
   @Get()
-  async getHello() {
-    return this.appService.getHello();
+  async welcome() {
+    return this.appService.welcome();
   }
 }

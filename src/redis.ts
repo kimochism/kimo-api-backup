@@ -1,9 +1,10 @@
 import * as Redis from 'ioredis';
+import redisConfig from './config/redis.config';
 
 export const redis = new Redis({
-  port: 11041, // Redis port
-  host: 'redis-11041.c60.us-west-1-2.ec2.cloud.redislabs.com', // Redis host
-  family: 4, // 4 (IPv4) or 6 (IPv6)
-  password: 'gAHcNl68uOG2rmJBdnPJDnXM445lKh0k',
+  port: 11041,
+  host: redisConfig.host,
+  family: 4,
+  password: redisConfig.password,
   db: 0,
 });

@@ -2,7 +2,6 @@ import { Logger } from '@nestjs/common';
 import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { SocketService } from './socket/socket.service';
-
 @WebSocketGateway({ cors: true })
 export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
@@ -13,7 +12,6 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
 
   @SubscribeMessage('paymentNotification')
   handlePaymentNotification(client: Socket, payload: any) {
-    console.log('???handlePaymentNotification???', payload);
     this.server.emit('receivedPix', payload, client.id);
   }
 
