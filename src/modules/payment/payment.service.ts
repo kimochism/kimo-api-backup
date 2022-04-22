@@ -43,10 +43,9 @@ export class PaymentService {
             }
 
             return this.socketService.socket.emit('receivedPix', { id: paymentId, status: PaymentStatus.aprroved });
-        } else {
-            
-            return this.socketService.socket.emit('receivedPix', { id: paymentId, error: 'Ops, algo deu errado.', status });
         }
+            
+        return this.socketService.socket.emit('receivedPix', { id: paymentId, error: 'Ops, algo deu errado.', status });
     }
 
     async getPaidMarketPayment(id: number) {
@@ -58,11 +57,8 @@ export class PaymentService {
     }
 
     async createPayment(payment: CreatePaymentPayload): Promise<any> {
-
-        console.log(payment);
         
         const paidMarketResponse = await this.paidMarketService.savePayment(payment);
-
 
         if(paidMarketResponse) {
             const {
@@ -71,25 +67,37 @@ export class PaymentService {
                 installments,
                 payment_method_id,
                 payment_type_id,
-                metadata
+                metadata,
             } = paidMarketResponse.body;
 
-            const newPayment = await this.paymentModel.create({
+            let paymentData: Payment = {
                 amount: transaction_amount,
                 payment_method_code: payment_method_id,
                 payment_type: payment_type_id,
                 order_id: metadata.order_id,
                 status,
-                installments
-            });
-
-            if(payment_type_id === 'credit_card') {
-
-                console.log('Que');
-                return newPayment;
+                installments,
+                pix_qr_code: undefined,
+                pix_qr_code64: undefined,
             }
 
-            return paidMarketResponse;
+            if(payment_method_id === 'pix') {
+                const { 
+                    point_of_interaction: { 
+                        transaction_data: { 
+                            qr_code, 
+                            qr_code_base64 
+                        }
+                    }
+                } = paidMarketResponse.body;
+
+                paymentData.pix_qr_code = qr_code;
+                paymentData.pix_qr_code64 = qr_code_base64;
+            }
+
+            const newPayment = await this.paymentModel.create(paymentData);
+
+            return newPayment;
         }
     }
 

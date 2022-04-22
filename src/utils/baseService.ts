@@ -20,8 +20,6 @@ export class BaseService {
 
     async get(serviceUrl: string, paramsValues = null, queryValues = null) {
         const endpoint = this.prepareEndpoint(serviceUrl, paramsValues, queryValues);
-
-        console.log(endpoint);
         
         const headers = this.prepareHeader();
 
@@ -78,8 +76,6 @@ export class BaseService {
         const buildedHeaders = {
             'Content-Type': 'application/json'
         };
-
-        console.log(headers);
 
         return { headers: buildedHeaders };
     }

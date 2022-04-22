@@ -49,8 +49,6 @@ export class PaymentController {
 
     @Put('paidMarket/:id')
     async cancelPayment(@Param('id') id: number) {
-
-        console.log(id);
         return await this.paymentService.calcelPaidMarketPayment(id);
     }
 

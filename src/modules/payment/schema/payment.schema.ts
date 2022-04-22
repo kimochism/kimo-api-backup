@@ -16,6 +16,8 @@ export interface PaymentModel extends Document {
   readonly payment_method_code: number;
   readonly payment_type: number;
   readonly order_id: string;
+  readonly pix_qr_code?: string;
+  readonly pix_qr_code64?: string;
 }
 
 @Schema({ timestamps: true })
@@ -35,6 +37,12 @@ export class Payment {
   
   @Prop({ type: String, required: true })
   payment_type: string;
+  
+  @Prop({ type: String, required: false })
+  pix_qr_code: string;
+  
+  @Prop({ type: String, required: false })
+  pix_qr_code64: string;
   
   @Prop({ type: String, required: true })
   order_id: string;

@@ -60,15 +60,4 @@ export class ProductService {
         await this.productModel.deleteOne({ _id: id }).exec();
         return true;
     }
-
-    async updatePrices(): Promise<boolean> {
-
-        console.log('OK');
-        await this.productModel.updateMany({}, {
-            price: 89.90,
-            discount_price: 69.90
-        }).exec();
-
-        return true;
-    }
 }
