@@ -4,7 +4,6 @@ import { CreatePaymentPayload } from 'mercadopago/models/payment/create-payload.
 export class PaidMarketService {
     
     constructor() {
-        console.log(PAID_MARKET_TEST_ACCESS_TOKEN);
         configurations.setAccessToken(PAID_MARKET_TEST_ACCESS_TOKEN);
     }
 
